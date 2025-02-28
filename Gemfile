@@ -4,7 +4,7 @@ source "http://rubygems.org"
 
 ruby RUBY_VERSION
 
-DECIDIM_VERSION = { github: "decidim/decidim", branch: "release/0.28-stable"}.freeze
+DECIDIM_VERSION = "0.29.2"
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-conferences", DECIDIM_VERSION
@@ -13,8 +13,8 @@ gem "decidim-conferences", DECIDIM_VERSION
 # gem "decidim-initiatives", DECIDIM_VERSION
 gem "decidim-templates", DECIDIM_VERSION
 
-gem "decidim-decidim_awesome", github: "decidim-ice/decidim-module-decidim_awesome", branch: "develop"
-gem "decidim-term_customizer", github: "mainio/decidim-module-term_customizer"
+gem "decidim-decidim_awesome", github: "decidim-ice/decidim-module-decidim_awesome", branch: "upgrade-0.29"
+# gem "decidim-term_customizer", github: "mainio/decidim-module-term_customizer", branch: "main"
 
 gem "bootsnap", "~> 1.3"
 
@@ -36,8 +36,6 @@ end
 group :development do
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.1"
-  gem "spring", "~> 2.0"
-  gem "spring-watcher-listen", "~> 2.0"
   gem "web-console", "~> 4.2"
 end
 
