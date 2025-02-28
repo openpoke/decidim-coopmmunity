@@ -18,8 +18,8 @@ gem "decidim-decidim_awesome", github: "decidim-ice/decidim-module-decidim_aweso
 
 gem "bootsnap", "~> 1.3"
 
-gem "puma", ">= 6.3.1"
 gem "deface", ">= 1.9"
+gem "puma", ">= 6.3.1"
 
 gem "wicked_pdf", "~> 2.1"
 

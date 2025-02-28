@@ -12,6 +12,6 @@ module ViewModelOverride
 
     def cache_expiry_time
       Decidim::Env.new("CACHE_EXPIRY_TIME").presence&.to_i || 1.hour
-    end 
+    end
   end
 end
