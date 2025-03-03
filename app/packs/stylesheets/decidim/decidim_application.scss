@@ -9,6 +9,7 @@
 
 @import "../partials/fonts";
 
+// Custom styles for language chooser on header
 .main-bar__links-desktop {
     @media (min-width: 768px){
       [data-target*=dropdown] {
@@ -35,3 +36,12 @@
       }
     }
   }
+
+// customized email button 
+p.email-button.email-button__cta,
+p.email-button.email-button__cta a,
+table.button table td a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration: underline;
+}
