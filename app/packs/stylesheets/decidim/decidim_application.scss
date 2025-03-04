@@ -38,10 +38,7 @@
   }
 
 // customized email button 
-p.email-button.email-button__cta,
-p.email-button.email-button__cta a,
-table.button table td a {
-  color: var(--primary);
-  font-weight: bold;
-  text-decoration: underline;
+.email-button.email-button__cta,
+.email-button.email-button__cta a {
+  @apply text-primary font-semibold underline;
 }
