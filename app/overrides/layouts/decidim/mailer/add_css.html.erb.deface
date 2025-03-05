@@ -1,0 +1,15 @@
+<!-- insert_after "erb[loud]:contains('stylesheet_pack_tag')" -->
+
+<style>
+a {
+    color: red;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+th center a{
+    display: flex;
+    justify-content: center;
+}
+
+</style>
