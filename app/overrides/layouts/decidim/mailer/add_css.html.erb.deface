@@ -7,14 +7,16 @@ a {
     text-decoration: underline;
 }
 
-th center a{
+th center a {
     display: flex;
     justify-content: center;
+    max-height: 100px;
 }
 
 h1,
 h2 {
-    font-family: PP Editorial New;
+    font-family: PP Editorial New, serif;
     font-weight: 600;
+    font-size: 36px;
 }
 </style>
