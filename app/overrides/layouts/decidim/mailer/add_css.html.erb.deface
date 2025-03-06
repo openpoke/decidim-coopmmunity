@@ -12,16 +12,9 @@ th center a{
     justify-content: center;
 }
 
-@font-face {
-  font-family: 'PP Editorial New';
-  src: url('fonts/PPEditorialNew-Regular.otf') format('opentype');
-  font-style: normal;
-  font-weight: 600;
-}
-
 h1,
 h2 {
-    font-family: 'PP Editorial New', sans-serif;
+    font-family: PP Editorial New;
     font-weight: 600;
 }
 </style>
