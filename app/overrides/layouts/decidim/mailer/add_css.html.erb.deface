@@ -2,7 +2,7 @@
 
 <style>
 a {
-    color: red;
+    color: #f22e41;;
     font-weight: bold;
     text-decoration: underline;
 }
@@ -12,4 +12,16 @@ th center a{
     justify-content: center;
 }
 
+@font-face {
+  font-family: 'PP Editorial New';
+  src: url('fonts/PPEditorialNew-Regular.otf') format('opentype');
+  font-style: normal;
+  font-weight: 600;
+}
+
+h1,
+h2 {
+    font-family: 'PP Editorial New', sans-serif;
+    font-weight: 600;
+}
 </style>
