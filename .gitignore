@@ -36,6 +36,7 @@
 .env
 .envrc
 .rbenv-vars
+.rspec-*
 
 # Ignore the files and folders generated through Webpack
 /public/decidim-packs
