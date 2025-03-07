@@ -4,7 +4,7 @@ source "http://rubygems.org"
 
 ruby RUBY_VERSION
 
-DECIDIM_VERSION = "0.29.2"
+DECIDIM_VERSION = { github: "decidim/decidim", branch: "release/0.29-stable" }
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-conferences", DECIDIM_VERSION
@@ -19,9 +19,9 @@ gem "decidim-decidim_awesome", github: "decidim-ice/decidim-module-decidim_aweso
 gem "bootsnap", "~> 1.3"
 
 gem "deface", ">= 1.9"
+gem "health_check"
 gem "puma", ">= 6.3.1"
-
-gem "wicked_pdf", "~> 2.1"
+gem "rorvswild"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
