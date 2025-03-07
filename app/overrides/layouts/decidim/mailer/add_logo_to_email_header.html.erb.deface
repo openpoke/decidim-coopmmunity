@@ -1,0 +1,3 @@
+<!-- replace "erb[loud]:contains('layouts/decidim/mailer_logo')" -->
+
+<%= image_pack_tag("media/images/head_coopmmunity-eu.png", alt: "Logo capçalaera coopmmunity-eu") %>

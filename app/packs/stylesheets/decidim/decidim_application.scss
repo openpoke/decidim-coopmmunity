@@ -9,6 +9,7 @@
 
 @import "../partials/fonts";
 
+// Custom styles for language chooser on header
 .main-bar__links-desktop {
     @media (min-width: 768px){
       [data-target*=dropdown] {

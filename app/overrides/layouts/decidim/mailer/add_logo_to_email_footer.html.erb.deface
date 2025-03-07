@@ -1,0 +1,3 @@
+<!-- replace_contents ".decidim-logo" -->
+
+<%= image_pack_tag("media/images/peu_coopmmunity-eu.png", alt: "Logo peu coopmmunity-eu") %>
