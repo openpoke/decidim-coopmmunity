@@ -1,3 +1,15 @@
 <!-- replace_contents ".decidim-logo" -->
 
 <%= image_pack_tag("media/images/peu_coopmmunity-eu.png", alt: "Logo peu coopmmunity-eu") %>
+
+<style>
+div.decidim-logo {
+    float: none !important;
+    display: flex;
+    justify-content: center;
+}
+
+div.decidim-logo img {
+   max-height: 40px; 
+}
+</style>

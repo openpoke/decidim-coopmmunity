@@ -2,7 +2,7 @@
 
 <style>
 a {
-    color: #f22e41;;
+    color: #DA123D;
     font-weight: bold;
     text-decoration: underline;
 }
@@ -10,13 +10,19 @@ a {
 th center a {
     display: flex;
     justify-content: center;
-    max-height: 100px;
+    max-height: 200px;
 }
 
 h1,
 h2 {
-    font-family: PP Editorial New, serif;
+    font-family: 'PP Editorial New', serif;
     font-weight: 600;
     font-size: 36px;
+}
+
+p.email-instructions {
+    font-family: 'DM Sans', sans-serif;
+    font-style: normal;
+    font-weight: 500;
 }
 </style>
