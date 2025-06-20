@@ -32,20 +32,22 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore rspec-failures file
+.rspec-failures
+
 # Ignore env configuration files
 .env
 .envrc
 .rbenv-vars
-.rspec-*
 
 # Ignore the files and folders generated through Webpack
 /public/decidim-packs
 /public/packs-test
-/public/sw.js
-/public/sw.js.map
+/public/sw.js*
 
 # Ignore node modules
 /node_modules
+/packages/*/node_modules
 
 
 # Ignore Tailwind configuration

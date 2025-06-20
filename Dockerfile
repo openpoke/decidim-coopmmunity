@@ -1,4 +1,4 @@
-FROM ruby:3.1 AS builder
+FROM ruby:3.2.6 AS builder
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y ca-certificates curl gnupg && \
     mkdir -p /etc/apt/keyrings && \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y ca-certificates c
     apt-get update && apt-get install -y nodejs yarn \
     build-essential \
     postgresql-client \
-    p7zip-full \
+    p7zip \
     libpq-dev && \
     apt-get clean
 
@@ -18,13 +18,10 @@ RUN bundle config --global frozen 1
 WORKDIR /app
 
 # Copy package dependencies files only to ensure maximum cache hit
-COPY ./package-lock.json /app/package-lock.json
-COPY ./package.json /app/package.json
 COPY ./Gemfile /app/Gemfile
 COPY ./Gemfile.lock /app/Gemfile.lock
 
-RUN gem update --system --source http://rubygems.org/ && \
-    gem install bundler:$(grep -A 1 'BUNDLED WITH' Gemfile.lock | tail -n 1 | xargs) && \
+RUN gem install bundler:$(grep -A 1 'BUNDLED WITH' Gemfile.lock | tail -n 1 | xargs) && \
     bundle config --local without 'development test' && \
     bundle install -j4 --retry 3 && \
     # Remove unneeded gems
@@ -35,14 +32,13 @@ RUN gem update --system --source http://rubygems.org/ && \
     find /usr/local/bundle/ -name "*.o" -delete && \
     find /usr/local/bundle/ -name ".git" -exec rm -rf {} + && \
     find /usr/local/bundle/ -name ".github" -exec rm -rf {} + && \
-    # whkhtmltopdf has binaries for all platforms, we don't need them once uncompressed
-    rm -rf /usr/local/bundle/gems/wkhtmltopdf-binary-*/bin/*.gz && \
-    # fix possible 7zip problems by manually adding the 7z.so libray
-    ln -sf /usr/lib/p7zip/7z.so /usr/local/bundle/gems/seven_zip_ruby-1.3.0/lib/seven_zip_ruby/7z.so && \
-    rm -f /usr/local/bundle/gems/seven_zip_ruby-1.3.0/lib/seven_zip_ruby/*.dll && \
     # Remove additional unneded decidim files
-    find /usr/local/bundle/ -name "decidim_app-design" -exec rm -rf {} + && \
-    find /usr/local/bundle/ -name "spec" -exec rm -rf {} +
+    find /usr/local/bundle/ -name "spec" -exec rm -rf {} + && \
+    find /usr/local/bundle/ -wholename "*/decidim-dev/lib/decidim/dev/assets/*" -exec rm -rf {} +
+
+COPY ./package-lock.json /app/package-lock.json
+COPY ./package.json /app/package.json
+COPY ./packages /app/packages
 
 RUN npm ci
 
@@ -52,11 +48,10 @@ COPY ./bin /app/bin
 COPY ./config /app/config
 COPY ./db /app/db
 COPY ./lib /app/lib
-COPY ./packages /app/packages
 COPY ./public/*.* /app/public/
 COPY ./config.ru /app/config.ru
 COPY ./Rakefile /app/Rakefile
-COPY ./babel.config.json /app/babel.config.json
+COPY ./tsconfig.json /app/tsconfig.json
 COPY ./postcss.config.js /app/postcss.config.js
 
 # Compile assets with Webpacker or Sprockets
@@ -82,17 +77,21 @@ RUN mv config/credentials.bak config/credentials 2>/dev/null || true
 RUN rm -rf node_modules tmp/cache vendor/bundle test spec app/packs .git
 
 # This image is for production env only
-FROM ruby:3.1-slim AS final
+FROM ruby:3.2.6-slim AS final
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y ca-certificates curl gnupg && \
+RUN apt-get update && \
     apt-get install -y postgresql-client \
     imagemagick \
     curl \
-    p7zip-full \
+    p7zip \
+    wkhtmltopdf \
     supervisor && \
     apt-get clean
 
 EXPOSE 3000
+
+ARG CAPROVER_GIT_COMMIT_SHA=${CAPROVER_GIT_COMMIT_SHA}
+ENV APP_REVISION=${CAPROVER_GIT_COMMIT_SHA}
 
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_SERVE_STATIC_FILES true
@@ -100,13 +99,6 @@ ENV RAILS_ENV production
 
 ARG RUN_RAILS
 ARG RUN_SIDEKIQ
-ARG COMMIT_SHA
-ARG COMMIT_TIME
-ARG COMMIT_VERSION
-
-ENV COMMIT_SHA ${COMMIT_SHA}
-ENV COMMIT_TIME ${COMMIT_TIME}
-ENV COMMIT_VERSION ${COMMIT_VERSION}
 
 # Add user
 RUN addgroup --system --gid 1000 app && \
@@ -120,8 +112,7 @@ COPY --from=builder --chown=app:app /app /app
 
 USER app
 HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
-    CMD (curl -sSH "Content-Type: application/json" -d '{"query": "{ decidim { version } }"}' http://localhost:3000/api) || exit 1
-
+    CMD (curl -sS http://localhost:3000/health_check | grep success) || exit 1
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
